@@ -10,6 +10,24 @@ from bson import ObjectId
 
 router = APIRouter(prefix="/users", tags=["Users"])
 
+@router.get("/{user_id}", response_model=UserPublic)
+async def get_user(
+    user_id: str,
+    db: AsyncIOMotorDatabase = Depends(get_database)
+):
+    from bson import ObjectId
+
+    if not ObjectId.is_valid(user_id):
+        raise HTTPException(status_code=400, detail="Invalid user ID")
+
+    user = await db["Users"].find_one({"_id": ObjectId(user_id)})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    user["_id"] = str(user["_id"])
+    return UserPublic(**user)
+
+
 @router.post("/", response_model=UserPublic, status_code=status.HTTP_201_CREATED)
 async def create_user(
     user: UserCreate,

@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     MONGODB_URI: str = Field(..., env="MONGODB_URI")
     DB_NAME: str = "flights-reserves"
 
-    FLIGHT_SERVICE_URL: str = "http://localhost:8000"
+    USER_SERVICE_URL: str = "http://localhost:8000"
 
     class Config:
         env_file = ".env"

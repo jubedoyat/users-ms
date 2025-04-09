@@ -26,4 +26,4 @@ class UserUpdate(BaseModel):
     password: Optional[str]
 
 class UserPublic(UserBase):
-    id: str
+    id: str = Field(..., alias="_id")

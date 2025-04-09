@@ -22,6 +22,6 @@ app.add_middleware(
 # Routers
 @app.get("/")
 def root():
-    return {"message": "Welcome to the Flights Microservice!"}
+    return {"message": "Welcome to the Users Microservice!"}
 app.include_router(auth.router)
 app.include_router(users.router)
