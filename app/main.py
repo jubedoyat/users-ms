@@ -2,12 +2,23 @@ from fastapi import FastAPI
 from app.core.config import settings
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.endpoints import users, auth
+from contextlib import asynccontextmanager
+from fastapi import FastAPI
+
+from app.db.mongodb import get_database
+from tests.test_users import get_test_database
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    app.dependency_overrides[get_database] = get_test_database
+    yield
 
 
 app = FastAPI(
     title=settings.PROJECT_NAME,
     version="1.0.0",
-    docs_url="/docs"
+    docs_url="/docs",
+    lifespan=lifespan
 )
 
 # Middleware
