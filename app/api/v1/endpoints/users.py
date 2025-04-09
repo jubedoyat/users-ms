@@ -40,7 +40,7 @@ async def create_user(
 
     user.password = hash_password(user.password)
     new_user = await user_repo.create_user(user)
-    return UserPublic(**new_user.model_dump())
+    return UserPublic(**new_user.model_dump(by_alias=True))
 
 @router.patch("/{id}", response_model=UserPublic)
 async def update_user(
